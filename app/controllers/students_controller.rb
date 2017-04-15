@@ -1,11 +1,23 @@
 class StudentsController < ApplicationController
   before_action :set_student, only: :show
-  
+
   def index
+
     @students = Student.all
   end
 
   def show
+    @student = Student.find(params[:id])
+  end
+
+  def activate
+    @student = Student.find(params[:id])
+    if @student.active
+      @student.update(active: false)
+    else
+      @student.update(active: true)
+    end
+    redirect_to student_path(@student)
   end
 
   private
@@ -14,3 +26,11 @@ class StudentsController < ApplicationController
       @student = Student.find(params[:id])
     end
 end
+
+# def generate_link_tag(body,href)
+#   "<a href='#{href}'>#{body}</a>"
+# end
+#
+# # def form_tag(arg, block)
+#   <form method="post", action=""
+# end
